@@ -1,0 +1,95 @@
+Install Java JDK 6.0 update 31 on Ubuntu 12.04 LTS
+
+Introduction
+The first question is why are we installing an old JDK. The answer is that Oracle JDK 6.0 update 31 is the JDK recommended by Cloudera when installing CDH4 (Cloudera Distribution Hadoop v4).
+
+This is an update to an older version of this post. Mainly I have changed the JDK from 1.6.0_26 to 1.6.0_31 as this is the recommended JDK for CDH4 .
+
+Install Java
+I have a 64 bit version of Ubuntu 12.04 LTS installed, so the instructions below only apply to this OS.
+
+Download the Java JDK from http://www.oracle.com/technetwork/java/javasebusiness/downloads/java-archive-downloads-javase6-419409.html#jdk-6u31-oth-JPR .
+Click Accept License Agreement
+Click jdk-6u31-linux-x64.bin
+Login to Oracle.com with your Oracle account
+Download the JDK to your ~/Downloads directory
+After downloading, open a terminal, then enter the following commands.
+cd ~/Downloads
+chmod +x jdk-6u31-linux-x64.bin
+./jdk-6u31-linux-x64.bin
+Note:
+The jvm directory is used to organize all JDK/JVM versions in a single parent directory.
+
+sudo mkdir /usr/lib/jvm
+sudo mv jdk1.6.0_31 /usr/lib/jvm
+The next 3 commands are split across 2 lines per command due to width limits in the blog’s theme.
+
+sudo update-alternatives --install "/usr/bin/java" "java" \
+"/usr/lib/jvm/jdk1.6.0_31/bin/java" 1
+sudo update-alternatives --install "/usr/bin/javac" "javac" \
+"/usr/lib/jvm/jdk1.6.0_31/bin/javac" 1
+sudo update-alternatives --install "/usr/bin/javaws" "javaws" \
+"/usr/lib/jvm/jdk1.6.0_31/bin/javaws" 1
+sudo update-alternatives --config java
+You will see output similar to the following (although it’ll differ on your system). Read through the list and find the number for the Oracle JDK installation (/usr/lib/jvm/jdk1.6.0_26/bin/java)
+
+There are 2 choices for the alternative java (providing /usr/bin/java).
+
+  Selection    Path                                            Priority   Status
+------------------------------------------------------------
+* 0            /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java   1051      auto mode
+  1            /usr/lib/jvm/jdk1.6.0_31/bin/java                1         manual mode
+  2            /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java   1051      manual mode
+On my system I did the following (change the number that is appropriate for your system):
+Press 1 on your keyboard, then press Enter.
+
+sudo update-alternatives --config javac
+Follow steps similar to those listed above if you are presented with a list of options. In my case, I had not previously installed the OpenJDK javac binary, so my output looked like the following:
+
+There is only one alternative in link group javac: /usr/lib/jvm/jdk1.6.0_31/bin/javac
+Nothing to configure.
+sudo update-alternatives --config javaws
+As with javac, I did not have the OpenJDK version of javaws installed, so my output was simple. However, if you get a list of options, just type in the number of the path to the Oracle javaws command, and press Enter.
+
+There is only one alternative in link group javaws: /usr/lib/jvm/jdk1.6.0_31/bin/javaws
+Nothing to configure.
+As a final step, let’s test each of the commands to ensure everything is setup correctly.
+
+java -version
+The output should be:
+java version "1.6.0_31"
+Java(TM) SE Runtime Environment (build 1.6.0_31-b04)
+Java HotSpot(TM) 64-Bit Server VM (build 20.6-b01, mixed mode)
+
+javac -version
+The output should be:
+javac 1.6.0_31
+
+javaws -version
+The output should be:
+Java(TM) Web Start 1.6.0_31
+which is followed by a long usage message.
+
+Create the JAVA_HOME environment variable
+Open a terminal, then enter the following commands:
+
+sudo vi /etc/environment
+WARNING
+WordPress displays the quotes around the JAVA_HOME value below as magic quotes. This will cause problems when you try to use your JVM in certain applications.
+
+Do not copy/paste the JAVA_HOME value below. Or if you do, ensure that you change magic quotes to straight quotes in your editor.
+
+Enter the following at the bottom of the file:
+JAVA_HOME="/usr/lib/jvm/jdk1.6.0_31"
+
+Type the following commands to finish the setup and verify that everything is setup correctly.
+
+source /etc/environment
+echo $JAVA_HOME
+You should see the following output:
+
+/usr/lib/jvm/jdk1.6.0_31
+Lastly, verify that JAVA_HOME is set correctly for the sudo user:
+
+sudo env | grep JAVA_HOME
+That’s it, the JDK 6.0 update 31 is installed.
