@@ -15,21 +15,18 @@ Login to Oracle.com with your Oracle account
 Download the JDK to your ~/Downloads directory
 After downloading, open a terminal, then enter the following commands.
 cd ~/Downloads
-chmod +x jdk-6u31-linux-x64.bin
-./jdk-6u31-linux-x64.bin
+chmod +x jdk-6u45-linux-x64.bin
+./jdk-6u45-linux-x64.bin
 Note:
 The jvm directory is used to organize all JDK/JVM versions in a single parent directory.
 
 sudo mkdir /usr/lib/jvm
-sudo mv jdk1.6.0_31 /usr/lib/jvm
+sudo mv jdk1.6.0_45 /usr/lib/jvm
 The next 3 commands are split across 2 lines per command due to width limits in the blog’s theme.
 
-sudo update-alternatives --install "/usr/bin/java" "java" \
-"/usr/lib/jvm/jdk1.6.0_31/bin/java" 1
-sudo update-alternatives --install "/usr/bin/javac" "javac" \
-"/usr/lib/jvm/jdk1.6.0_31/bin/javac" 1
-sudo update-alternatives --install "/usr/bin/javaws" "javaws" \
-"/usr/lib/jvm/jdk1.6.0_31/bin/javaws" 1
+sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.6.0_45/bin/java" 1
+sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/jdk1.6.0_45/bin/javac" 1
+sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/lib/jvm/jdk1.6.0_45/bin/javaws" 1
 sudo update-alternatives --config java
 You will see output similar to the following (although it’ll differ on your system). Read through the list and find the number for the Oracle JDK installation (/usr/lib/jvm/jdk1.6.0_26/bin/java)
 
@@ -63,11 +60,11 @@ Java HotSpot(TM) 64-Bit Server VM (build 20.6-b01, mixed mode)
 
 javac -version
 The output should be:
-javac 1.6.0_31
+javac 1.6.0_45
 
 javaws -version
 The output should be:
-Java(TM) Web Start 1.6.0_31
+Java(TM) Web Start 1.6.0_45
 which is followed by a long usage message.
 
 Create the JAVA_HOME environment variable
@@ -80,7 +77,7 @@ WordPress displays the quotes around the JAVA_HOME value below as magic quotes. 
 Do not copy/paste the JAVA_HOME value below. Or if you do, ensure that you change magic quotes to straight quotes in your editor.
 
 Enter the following at the bottom of the file:
-JAVA_HOME="/usr/lib/jvm/jdk1.6.0_31"
+JAVA_HOME="/usr/lib/jvm/jdk1.6.0_45"
 
 Type the following commands to finish the setup and verify that everything is setup correctly.
 
@@ -88,7 +85,7 @@ source /etc/environment
 echo $JAVA_HOME
 You should see the following output:
 
-/usr/lib/jvm/jdk1.6.0_31
+/usr/lib/jvm/jdk1.6.0_45
 Lastly, verify that JAVA_HOME is set correctly for the sudo user:
 
 sudo env | grep JAVA_HOME
