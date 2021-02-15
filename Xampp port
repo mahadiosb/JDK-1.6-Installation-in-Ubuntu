@@ -1,0 +1,10 @@
+This answer is not useful
+this is what works
+
+Open the file /opt/lampp/etc/httpd.conf
+Search the "Listen 80" and change it to some other port (eg Listen 8000)
+Open the file /opt/lampp/etc/extra/httpd-ssl.conf
+Search the "Listen 443" and change it to some other port (eg Listen 4431)
+Open the file "/opt/lampp/lampp"
+Search for the port "testport 80" and replace it to "testport 8000". Also change the "testport 443" to "testport 4431".
+Now go and run "/opt/lampp/lampp start". (It works now).
